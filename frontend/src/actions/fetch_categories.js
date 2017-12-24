@@ -1,4 +1,4 @@
-import { FETCH_CATEGORIES } from './types';
+import { FETCH_CATEGORIES } from './actions';
 
 export default function fetchCategories() {
     return {
