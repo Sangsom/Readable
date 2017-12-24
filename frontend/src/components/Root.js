@@ -8,7 +8,10 @@ class Root extends Component {
   }
 
   render() {
-    return <div>Readable Project</div>;
+    console.log(this.props.categories)
+    return (
+      <div>Categories:</div>
+    )
   }
 }
 
