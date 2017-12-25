@@ -9,7 +9,7 @@ export default function fetchCategories() {
             }
         }).then(response => {
             dispatch(fetchCategoriesAsync(response.data.categories))
-        });
+        }).catch(err => console.log(err));
     }
 }
 

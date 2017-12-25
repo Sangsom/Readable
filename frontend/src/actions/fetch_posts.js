@@ -9,7 +9,7 @@ export default function fetchPosts() {
             }
         }).then(response => {
             dispatch(fetchPostsAsync(response.data))
-        })
+        }).catch(err => console.log(err));
     }
 }
 
