@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, withRouter } from 'react-router-dom';
 import fetchCategories from '../actions/fetch_categories'
 import fetchPosts from '../actions/fetch_posts'
 
@@ -27,6 +27,16 @@ class Root extends Component {
             <li key={post.id}>Title: {post.title}</li>
           ))}
         </ul>
+
+        <Route path="/react" component={() => (
+          <div>React</div>
+        )} />
+        <Route path="/redux" component={() => (
+          <div>Redux</div>
+        )} />
+        <Route path="/udacity" component={() => (
+          <div>Udacity</div>
+        )} />
       </div>
     )
   }
@@ -40,4 +50,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, {fetchCategories, fetchPosts})(Root);
+export default withRouter(connect(mapStateToProps, {fetchCategories, fetchPosts})(Root));
