@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
+import { Route, Link } from 'react-router-dom';
 import fetchCategories from '../actions/fetch_categories'
 import fetchPosts from '../actions/fetch_posts'
 
@@ -17,7 +18,7 @@ class Root extends Component {
         Categories: 
         <ul>
           {categories.map(category => (
-            <li key={category.name}><a href={category.path}>{category.name}</a></li>
+            <li key={category.name}><Link to={`/${category.path}`}>{category.name}</Link></li>
           ))}
         </ul>
         Posts:
