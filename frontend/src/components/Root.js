@@ -8,9 +8,16 @@ class Root extends Component {
   }
 
   render() {
-    console.log(this.props.categories)
+    const { categories } = this.props;
+    console.log(categories)
     return (
-      <div>Categories:</div>
+      <div>Categories: 
+        <ul>
+          {categories.map(category => (
+            <li key={category.name}>{category.name}</li>
+          ))}
+        </ul>
+      </div>
     )
   }
 }
