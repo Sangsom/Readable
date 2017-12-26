@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { Route, Link, withRouter } from 'react-router-dom';
+import { Route, Link, Switch, withRouter } from 'react-router-dom';
 import fetchCategories from '../actions/fetch_categories'
 import fetchPosts from '../actions/fetch_posts'
 
@@ -28,15 +28,25 @@ class Root extends Component {
           ))}
         </ul>
 
-        <Route path="/react" component={() => (
-          <div>React</div>
-        )} />
-        <Route path="/redux" component={() => (
-          <div>Redux</div>
-        )} />
-        <Route path="/udacity" component={() => (
-          <div>Udacity</div>
-        )} />
+        <Switch>
+          <Route path="/" exact component={() => (
+            <div>All Posts</div>
+          )} />
+          <Route path="/react" component={() => (
+            <div>React</div>
+          )} />
+          <Route path="/redux" component={() => (
+            <div>Redux</div>
+          )} />
+          <Route path="/udacity" component={() => (
+            <div>Udacity</div>
+          )} />
+          <Route component={() => (
+            <div>No Match</div>
+          )} />
+        </Switch>
+
+        
       </div>
     )
   }
