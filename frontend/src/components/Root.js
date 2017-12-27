@@ -1,26 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, withRouter } from "react-router-dom";
-import fetchPosts from "../actions/fetch_posts";
 import Navigation from "./Navigation";
+import Posts from "./Posts";
 
 class Root extends Component {
-  componentDidMount() {
-    this.props.fetchPosts();
-  }
+  componentDidMount() {}
 
   render() {
-    const { posts } = this.props;
     return (
       <div>
         <Navigation />
-        Posts:
-        <ul>{posts.map(post => <li key={post.id}>Title: {post.title}</li>)}</ul>
+
         <Switch>
-          <Route path="/" exact component={() => <div>All Posts</div>} />
-          <Route path="/react" component={() => <div>React</div>} />
-          <Route path="/redux" component={() => <div>Redux</div>} />
-          <Route path="/udacity" component={() => <div>Udacity</div>} />
+          <Route path="/" exact component={Posts} />
+          <Route path="/:category" component={Posts} />
           <Route component={() => <div>No Match</div>} />
         </Switch>
       </div>
@@ -28,11 +22,4 @@ class Root extends Component {
   }
 }
 
-// connects root reducer to props
-function mapStateToProps(state) {
-  return {
-    posts: state.posts
-  };
-}
-
-export default withRouter(connect(mapStateToProps, { fetchPosts })(Root));
+export default withRouter(connect(null)(Root));
