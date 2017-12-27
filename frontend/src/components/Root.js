@@ -1,63 +1,39 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { Route, Link, Switch, withRouter } from 'react-router-dom';
-import fetchCategories from '../actions/fetch_categories'
-import fetchPosts from '../actions/fetch_posts'
+import { connect } from "react-redux";
+import { Route, Link, Switch, withRouter } from "react-router-dom";
+import fetchCategories from "../actions/fetch_categories";
+import fetchPosts from "../actions/fetch_posts";
+import Navigation from "./Navigation";
 
 class Root extends Component {
   componentDidMount() {
-    this.props.fetchCategories();
     this.props.fetchPosts();
   }
 
   render() {
-    const { categories, posts } = this.props;
-    console.log(posts)
+    const { posts } = this.props;
     return (
       <div>
-        Categories: 
-        <ul>
-          {categories.map(category => (
-            <li key={category.name}><Link to={`/${category.path}`}>{category.name}</Link></li>
-          ))}
-        </ul>
+        <Navigation />
         Posts:
-        <ul>
-          {posts.map(post => (
-            <li key={post.id}>Title: {post.title}</li>
-          ))}
-        </ul>
-
+        <ul>{posts.map(post => <li key={post.id}>Title: {post.title}</li>)}</ul>
         <Switch>
-          <Route path="/" exact component={() => (
-            <div>All Posts</div>
-          )} />
-          <Route path="/react" component={() => (
-            <div>React</div>
-          )} />
-          <Route path="/redux" component={() => (
-            <div>Redux</div>
-          )} />
-          <Route path="/udacity" component={() => (
-            <div>Udacity</div>
-          )} />
-          <Route component={() => (
-            <div>No Match</div>
-          )} />
+          <Route path="/" exact component={() => <div>All Posts</div>} />
+          <Route path="/react" component={() => <div>React</div>} />
+          <Route path="/redux" component={() => <div>Redux</div>} />
+          <Route path="/udacity" component={() => <div>Udacity</div>} />
+          <Route component={() => <div>No Match</div>} />
         </Switch>
-
-        
       </div>
-    )
+    );
   }
 }
 
 // connects root reducer to props
 function mapStateToProps(state) {
   return {
-    categories: state.categories,
     posts: state.posts
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps, {fetchCategories, fetchPosts})(Root));
+export default withRouter(connect(mapStateToProps, { fetchPosts })(Root));
