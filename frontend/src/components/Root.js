@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Route, Link, Switch, withRouter } from "react-router-dom";
-import fetchCategories from "../actions/fetch_categories";
+import { Route, Switch, withRouter } from "react-router-dom";
 import fetchPosts from "../actions/fetch_posts";
 import Navigation from "./Navigation";
 
