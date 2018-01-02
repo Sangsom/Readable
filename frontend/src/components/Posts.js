@@ -23,6 +23,10 @@ const orderKeys = [
   {
     key: "category",
     text: "Category"
+  },
+  {
+    key: "commentCount",
+    text: "Comments"
   }
 ];
 
