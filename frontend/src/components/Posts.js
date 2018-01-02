@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import fetchPosts from "../actions/fetch_posts";
+import orderByVotescore from "../actions/order_by_votescore";
+import orderByTimestamp from "../actions/order_by_timestamp";
 
 class Posts extends Component {
   componentDidMount() {
@@ -14,6 +16,8 @@ class Posts extends Component {
       <div>
         Posts:
         <ul>{posts.map(post => <li key={post.id}>Title: {post.title}</li>)}</ul>
+        <button onClick={this.props.orderByVotescore}>VoteScore</button>
+        <button onClick={this.props.orderByTimestamp}>Timestamp</button>
       </div>
     );
   }
@@ -27,4 +31,8 @@ function mapStateToProps({ posts }, { match }) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, { fetchPosts })(Posts));
+export default withRouter(
+  connect(mapStateToProps, { fetchPosts, orderByVotescore, orderByTimestamp })(
+    Posts
+  )
+);
