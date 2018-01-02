@@ -2,22 +2,76 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import fetchPosts from "../actions/fetch_posts";
-import orderByVotescore from "../actions/order_by_votescore";
-import orderByTimestamp from "../actions/order_by_timestamp";
+
+const orderKeys = [
+  {
+    key: "voteScore",
+    text: "VoteScore"
+  },
+  {
+    key: "title",
+    text: "Title"
+  },
+  {
+    key: "timestamp",
+    text: "Time"
+  },
+  {
+    key: "author",
+    text: "Author"
+  },
+  {
+    key: "category",
+    text: "Category"
+  }
+];
 
 class Posts extends Component {
+  state = {
+    orderKey: "voteScore",
+    desc: true
+  };
+
+  orderBy = orderKey => {
+    this.setState(state => ({
+      ...state,
+      orderKey,
+      desc: state.orderKey === orderKey ? !state.desc : state.desc
+    }));
+  };
+
   componentDidMount() {
     this.props.fetchPosts();
   }
 
   render() {
     const { posts } = this.props;
+    const { orderBy } = this;
+    const { orderKey, desc } = this.state;
     return (
       <div>
         Posts:
-        <ul>{posts.map(post => <li key={post.id}>Title: {post.title}</li>)}</ul>
-        <button onClick={this.props.orderByVotescore}>VoteScore</button>
-        <button onClick={this.props.orderByTimestamp}>Timestamp</button>
+        <ul>
+          {posts
+            .sort((a, b) => {
+              if (desc) {
+                return b[orderKey] < a[orderKey];
+              }
+              return a[orderKey] < b[orderKey];
+            })
+            .map(({ id, title, timestamp, category, author, voteScore }) => (
+              <li key={id}>
+                Title: {title} by {author} at {timestamp} in {category} with a
+                score of {voteScore}
+              </li>
+            ))}
+        </ul>
+        {orderKeys.map(({ key, text }) => (
+          <button key={key} onClick={() => orderBy(key)}>
+            {text}
+            {key === orderKey && (desc ? "▲" : "▼")}
+          </button>
+        ))}
       </div>
     );
   }
@@ -31,8 +85,4 @@ function mapStateToProps({ posts }, { match }) {
   };
 }
 
-export default withRouter(
-  connect(mapStateToProps, { fetchPosts, orderByVotescore, orderByTimestamp })(
-    Posts
-  )
-);
+export default withRouter(connect(mapStateToProps, { fetchPosts })(Posts));
