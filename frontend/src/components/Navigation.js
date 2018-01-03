@@ -24,6 +24,9 @@ class Navigation extends Component {
             </li>
           ))}
         </ul>
+        <Link to="/add-post">
+          <button>Add Post</button>
+        </Link>
       </div>
     );
   }
