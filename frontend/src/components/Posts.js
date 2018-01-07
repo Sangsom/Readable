@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import fetchPosts from "../actions/fetch_posts";
 
 const orderKeys = [
@@ -65,8 +66,7 @@ class Posts extends Component {
             })
             .map(({ id, title, timestamp, category, author, voteScore }) => (
               <li key={id}>
-                Title: {title} by {author} at {timestamp} in {category} with a
-                score of {voteScore}
+                <Link to={`/posts/${id}`}>{title}</Link>
               </li>
             ))}
         </ul>
