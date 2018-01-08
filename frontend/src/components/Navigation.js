@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import fetchCategories from "../actions/fetch_categories";
-import { Header, Menu } from "semantic-ui-react";
+import { Header, Menu, Button } from "semantic-ui-react";
 
 class Navigation extends Component {
   state = {
@@ -42,9 +42,13 @@ class Navigation extends Component {
             />
           ))}
         </Menu>
-        <Link to="/add-post">
-          <button>Add Post</button>
-        </Link>
+        <Button
+          as={Link}
+          to="/add-post/"
+          basic
+          color="green"
+          content="Add New Post"
+        />
       </div>
     );
   }
