@@ -34,7 +34,7 @@ class Navigation extends Component {
           {categoriesList.map(name => (
             <Menu.Item
               as={Link}
-              to={`/${name}`}
+              to={name === "all" ? "" : `/${name}`}
               name={name}
               color="olive"
               key={name}
