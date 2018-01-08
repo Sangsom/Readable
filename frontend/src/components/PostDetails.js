@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import fetchPostDetails from "../actions/fetch_post_details";
+import PostComments from "./PostComments";
 
 class PostDetails extends Component {
   componentDidMount() {
@@ -10,7 +11,7 @@ class PostDetails extends Component {
 
   render() {
     const { postDetails } = this.props;
-    console.log(postDetails);
+    const id = this.props.match.params.id;
 
     return (
       <div>
@@ -20,6 +21,11 @@ class PostDetails extends Component {
         <p>Author: {postDetails.author}</p>
         <p>Date: {Date(postDetails.timestamp)}</p>
         <p>Votescore: {postDetails.voteScore}</p>
+        {postDetails.commentCount > 0 ? (
+          <PostComments id={id} />
+        ) : (
+          <p>No comments for this post</p>
+        )}
       </div>
     );
   }
