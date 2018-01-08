@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import fetchPosts from "../actions/fetch_posts";
+import { Button, Item, Label } from "semantic-ui-react";
 
 const orderKeys = [
   {
@@ -55,8 +56,8 @@ class Posts extends Component {
     const { orderKey, desc } = this.state;
     return (
       <div>
-        Posts:
-        <ul>
+        <Item.Group divided>
+          Posts:
           {posts
             .sort((a, b) => {
               if (desc) {
@@ -64,12 +65,26 @@ class Posts extends Component {
               }
               return a[orderKey] < b[orderKey];
             })
-            .map(({ id, title, timestamp, category, author, voteScore }) => (
-              <li key={id}>
-                <Link to={`/posts/${id}`}>{title}</Link>
-              </li>
-            ))}
-        </ul>
+            .map(
+              ({ id, title, body, timestamp, category, author, voteScore }) => (
+                <Item key={id}>
+                  <Item.Image src="./assets/images/image.png" />
+
+                  <Item.Content>
+                    <Item.Header as={Link} to={`/posts/${id}`}>
+                      {title}
+                    </Item.Header>
+                    <Item.Meta>Category: {category}</Item.Meta>
+                    <Item.Description>{body}</Item.Description>
+                    <Item.Extra>
+                      <Label>One</Label>
+                      <Label>Two</Label>
+                    </Item.Extra>
+                  </Item.Content>
+                </Item>
+              )
+            )}
+        </Item.Group>
         {orderKeys.map(({ key, text }) => (
           <button key={key} onClick={() => orderBy(key)}>
             {text}
