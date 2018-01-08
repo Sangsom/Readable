@@ -20,24 +20,25 @@ class Navigation extends Component {
   render() {
     const { activeItem } = this.state;
     const { categories } = this.props;
+    const categoriesList = [
+      "all",
+      ...categories.map(category => {
+        return category.name;
+      })
+    ];
 
     return (
       <div>
         <Header size="large">Categories</Header>
-        <Menu vertical>
-          <Menu.Item
-            as={Link}
-            to="/"
-            name="all"
-            active={activeItem === "all"}
-          />
-          {categories.map(category => (
+        <Menu inverted vertical>
+          {categoriesList.map(name => (
             <Menu.Item
               as={Link}
-              to={`/${category.path}`}
-              name={category.name}
-              key={category.name}
-              active={activeItem === category.name}
+              to="/name"
+              name={name}
+              color="olive"
+              key={name}
+              active={activeItem === name}
               onClick={this.handleActiveItem}
             />
           ))}
