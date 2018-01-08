@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import fetchPostDetails from "../actions/fetch_post_details";
 
-/**
- * TODO: How to convert post details to later conveniently print them out???
- */
-
 class PostDetails extends Component {
   componentDidMount() {
     const id = this.props.match.params.id;
@@ -14,10 +10,16 @@ class PostDetails extends Component {
 
   render() {
     const { postDetails } = this.props;
+    console.log(postDetails);
+
     return (
       <div>
         These are selected post details:
-        <ul>{postDetails.map(post => <li>{post.title}</li>)}</ul>
+        <p>Title: {postDetails.title}</p>
+        <p>Body: {postDetails.body}</p>
+        <p>Author: {postDetails.author}</p>
+        <p>Date: {Date(postDetails.timestamp)}</p>
+        <p>Votescore: {postDetails.voteScore}</p>
       </div>
     );
   }
@@ -25,7 +27,7 @@ class PostDetails extends Component {
 
 function mapStateToProps(state) {
   return {
-    postDetails: state.posts
+    postDetails: state.postDetails
   };
 }
 
