@@ -19,7 +19,7 @@ class Root extends Component {
           <Route path="/" exact component={Posts} />
           <Route path="/posts/:id" component={PostDetails} />
           <Route path="/add-post" component={AddPost} />
-          <Route path="/edit-post" component={EditPost} />
+          <Route path="/edit-post/:id" component={EditPost} />
           <Route path="/:category" component={Posts} />
         </Switch>
       </div>

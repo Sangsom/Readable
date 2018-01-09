@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import fetchPostDetails from "../actions/fetch_post_details";
 import PostComments from "./PostComments";
 import { Button, Item, Header } from "semantic-ui-react";
@@ -49,7 +50,9 @@ class PostDetails extends Component {
               </Item.Meta>
               <Item.Extra>
                 <Button onClick={this.goBack}>Back</Button>
-                <Button primary>Edit</Button>
+                <Button primary as={Link} to={`/edit-post/${id}`}>
+                  Edit
+                </Button>
                 <Button negative>Delete</Button>
               </Item.Extra>
             </Item.Content>
