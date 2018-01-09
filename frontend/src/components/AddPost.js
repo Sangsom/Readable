@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import _ from "lodash";
 import addPost from "../actions/add_post";
+import fetchCategories from "../actions/fetch_categories";
 import { Button, Form } from "semantic-ui-react";
+
+const uuidv1 = require("uuid/v1");
 
 class AddPost extends Component {
   state = {
@@ -13,37 +17,43 @@ class AddPost extends Component {
     category: ""
   };
 
+  componentDidMount() {
+    this.props.fetchCategories();
+  }
+
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
   /**
-   * TODO: Generate categories
-   * TODO: Generate UUID
+   * TODO: Validate form fields
+   * TODO: After form successfully submitted, clear form fields and navigate away
    */
 
   handleSubmit = e => {
     e.preventDefault();
-    const { title, body, author } = this.state;
+    const { title, body, author, category } = this.state;
 
     const new_post = {
-      id: "hashsahsa",
+      id: uuidv1(),
       timestamp: Date.now(),
       title: title,
       body: body,
       author: author,
-      category: "redux"
+      category: category
     };
 
     this.props.addPost(new_post);
   };
 
   render() {
-    const { title, body, author } = this.state;
+    const { title, body, author, category } = this.state;
 
-    const categories = [
-      { key: "react", text: "React", value: "react" },
-      { key: "redux", text: "Redux", value: "redux" },
-      { key: "udacity", text: "Udacity", value: "udacity" }
-    ];
+    const categories = this.props.categories.map(category => {
+      return {
+        key: category.name,
+        text: _.upperFirst(category.name),
+        value: category.name
+      };
+    });
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -74,6 +84,9 @@ class AddPost extends Component {
           label="Category"
           options={categories}
           placeholder="Select category"
+          name="category"
+          value={category}
+          onChange={this.handleChange}
         />
         <Button type="submit">Submit</Button>
       </Form>
@@ -81,4 +94,10 @@ class AddPost extends Component {
   }
 }
 
-export default connect(null, { addPost })(AddPost);
+function mapStateToProps(state) {
+  return {
+    categories: state.categories
+  };
+}
+
+export default connect(mapStateToProps, { addPost, fetchCategories })(AddPost);
