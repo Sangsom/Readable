@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import fetchPosts from "../actions/fetch_posts";
-import { Button, Item, Label } from "semantic-ui-react";
+import { Button, Item, Header } from "semantic-ui-react";
 
 const orderKeys = [
   {
@@ -57,7 +57,7 @@ class Posts extends Component {
     return (
       <div>
         <Item.Group divided>
-          Posts:
+          <Header size="large">Posts</Header>
           {posts
             .sort((a, b) => {
               if (desc) {
@@ -90,7 +90,7 @@ class Posts extends Component {
                         <b>Category:</b> {category}
                       </p>
                       <p>
-                        <b>Time:</b> {new Date(timestamp).toDateString()}
+                        <b>Date:</b> {new Date(timestamp).toDateString()}
                       </p>
                       <p>
                         <b>VoteScore:</b> {voteScore}
@@ -99,11 +99,6 @@ class Posts extends Component {
                         <b>Comment count:</b> {commentCount}
                       </p>
                     </Item.Meta>
-                    <Item.Extra>
-                      <Button primary floated="right">
-                        Button example
-                      </Button>
-                    </Item.Extra>
                   </Item.Content>
                 </Item>
               )
