@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import _ from "lodash";
 import addPost from "../actions/add_post";
 import fetchCategories from "../actions/fetch_categories";
-import { Button, Form } from "semantic-ui-react";
+import { Button, Form, Header } from "semantic-ui-react";
 
 const uuidv1 = require("uuid/v1");
 
@@ -57,6 +57,7 @@ class AddPost extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit}>
+        <Header size="large">Add new post</Header>
         <Form.Input
           label="Title"
           type="text"
