@@ -101,20 +101,24 @@ class Posts extends Component {
                     </Item.Meta>
                     <Item.Extra>
                       <Button primary floated="right">
-                        Button
+                        Button example
                       </Button>
                     </Item.Extra>
                   </Item.Content>
                 </Item>
               )
             )}
+          <Item>
+            <Button.Group>
+              {orderKeys.map(({ key, text }) => (
+                <Button key={key} onClick={() => orderBy(key)}>
+                  {text}
+                  {key === orderKey && (desc ? "▲" : "▼")}
+                </Button>
+              ))}
+            </Button.Group>
+          </Item>
         </Item.Group>
-        {orderKeys.map(({ key, text }) => (
-          <button key={key} onClick={() => orderBy(key)}>
-            {text}
-            {key === orderKey && (desc ? "▲" : "▼")}
-          </button>
-        ))}
       </div>
     );
   }
