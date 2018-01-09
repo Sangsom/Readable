@@ -66,7 +66,15 @@ class Posts extends Component {
               return a[orderKey] < b[orderKey];
             })
             .map(
-              ({ id, title, body, timestamp, category, author, voteScore }) => (
+              ({
+                id,
+                title,
+                timestamp,
+                category,
+                author,
+                voteScore,
+                commentCount
+              }) => (
                 <Item key={id}>
                   <Item.Image src="./assets/images/image.png" />
 
@@ -74,11 +82,27 @@ class Posts extends Component {
                     <Item.Header as={Link} to={`/posts/${id}`}>
                       {title}
                     </Item.Header>
-                    <Item.Meta>Category: {category}</Item.Meta>
-                    <Item.Description>{body}</Item.Description>
+                    <Item.Meta>
+                      <p>
+                        <b>Author:</b> {author}
+                      </p>
+                      <p>
+                        <b>Category:</b> {category}
+                      </p>
+                      <p>
+                        <b>Time:</b> {new Date(timestamp).toDateString()}
+                      </p>
+                      <p>
+                        <b>VoteScore:</b> {voteScore}
+                      </p>
+                      <p>
+                        <b>Comment count:</b> {commentCount}
+                      </p>
+                    </Item.Meta>
                     <Item.Extra>
-                      <Label>One</Label>
-                      <Label>Two</Label>
+                      <Button primary floated="right">
+                        Button
+                      </Button>
                     </Item.Extra>
                   </Item.Content>
                 </Item>
