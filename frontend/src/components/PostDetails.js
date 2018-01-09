@@ -54,13 +54,14 @@ class PostDetails extends Component {
               </Item.Extra>
             </Item.Content>
           </Item>
+          <Item>
+            {postDetails.commentCount > 0 ? (
+              <PostComments id={id} />
+            ) : (
+              <p>No comments for this post</p>
+            )}
+          </Item>
         </Item.Group>
-
-        {postDetails.commentCount > 0 ? (
-          <PostComments id={id} />
-        ) : (
-          <p>No comments for this post</p>
-        )}
       </div>
     );
   }

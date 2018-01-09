@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import fetchComments from "../actions/fetch_comments";
+import { Feed, Header } from "semantic-ui-react";
 
 class PostComments extends Component {
   componentDidMount() {
@@ -10,15 +11,25 @@ class PostComments extends Component {
   render() {
     console.log(this.props);
     const { comments } = this.props;
+    const commentImage = "../assets/images/elliot.jpg";
     return (
       <div>
-        <b>Post comments:</b>
-        {comments.map(comment => (
-          <div key={comment.id}>
-            <p>Author: {comment.author}</p>
-            <p>Body: {comment.body}</p>
-          </div>
-        ))}
+        <Feed>
+          <Header size="large">Comments</Header>
+          {comments.map(comment => (
+            <Feed.Event
+              key={comment.id}
+              image={commentImage}
+              date={`${new Date(
+                comment.timestamp
+              ).toDateString()} at ${new Date(
+                comment.timestamp
+              ).toLocaleTimeString()}`}
+              summary={`${comment.author} commented...`}
+              extraText={comment.body}
+            />
+          ))}
+        </Feed>
       </div>
     );
   }
