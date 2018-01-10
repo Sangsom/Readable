@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 import fetchPostDetails from "../actions/fetch_post_details";
 import deletePost from "../actions/delete_post";
 import PostComments from "./PostComments";
+import AddComment from "./AddComment";
 import { Button, Item, Header, Confirm } from "semantic-ui-react";
 
 class PostDetails extends Component {
-  state = { id: "", open: false, deleted: false };
+  state = { id: "", open: false, redirect: false };
 
   componentDidMount() {
     const id = this.props.match.params.id;
@@ -25,10 +26,11 @@ class PostDetails extends Component {
   handleCancel = () => {
     this.setState({ open: false });
   };
+
   handleConfirm = () => {
     const { id } = this.state;
     this.props.deletePost(id, () => {
-      this.setState({ open: false, deleted: true });
+      this.setState({ open: false, redirect: true });
     });
   };
 
@@ -38,7 +40,7 @@ class PostDetails extends Component {
 
     return (
       <div>
-        {this.state.deleted ? (
+        {this.state.redirect ? (
           <Redirect to="/" />
         ) : (
           <Item.Group divided>
@@ -77,7 +79,9 @@ class PostDetails extends Component {
                   <Button negative onClick={this.show}>
                     Delete
                   </Button>
+                  <AddComment postId={id} />
                   <Confirm
+                    dimmer="blurring"
                     open={this.state.open}
                     content="Are you sure you want to delete this post?"
                     cancelButton="Cancel"
