@@ -90,7 +90,10 @@ class AddPost extends Component {
           value={category}
           onChange={this.handleChange}
         />
-        <Button type="submit">Submit</Button>
+        <Button onClick={this.props.history.goBack}>Cancel</Button>
+        <Button positive type="submit">
+          Submit
+        </Button>
       </Form>
     );
   }
