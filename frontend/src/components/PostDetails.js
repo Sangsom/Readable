@@ -20,10 +20,6 @@ class PostDetails extends Component {
     this.setState({ id });
   }
 
-  goBack = () => {
-    this.props.history.goBack();
-  };
-
   show = () => this.setState({ open: true });
 
   handleCancel = () => {
@@ -74,7 +70,7 @@ class PostDetails extends Component {
                   </p>
                 </Item.Meta>
                 <Item.Extra>
-                  <Button onClick={this.goBack}>Back</Button>
+                  <Button onClick={this.props.history.goBack}>Back</Button>
                   <Button primary as={Link} to={`/edit-post/${id}`}>
                     Edit
                   </Button>
