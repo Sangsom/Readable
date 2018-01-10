@@ -26,6 +26,10 @@ class EditPost extends Component {
     });
   }
 
+  goBack = () => {
+    this.props.history.goBack();
+  };
+
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
   handleSubmit = e => {
@@ -60,7 +64,10 @@ class EditPost extends Component {
           value={body}
           onChange={this.handleChange}
         />
-        <Button type="submit">Submit</Button>
+        <Button onClick={this.goBack}>Cancel</Button>
+        <Button positive type="submit">
+          Submit
+        </Button>
       </Form>
     );
   }

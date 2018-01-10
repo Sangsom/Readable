@@ -1,4 +1,9 @@
-import { FETCH_POSTS, ADD_POST, EDIT_POST } from "../actions/actions";
+import {
+  FETCH_POSTS,
+  ADD_POST,
+  EDIT_POST,
+  DELETE_POST
+} from "../actions/actions";
 
 export default function(state = [], action) {
   switch (action.type) {
@@ -30,6 +35,10 @@ export default function(state = [], action) {
         return {
           ...post
         };
+      });
+    case DELETE_POST:
+      return state.filter(post => {
+        return post.id !== action.payload;
       });
     default:
       return state;

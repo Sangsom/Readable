@@ -3,7 +3,7 @@ import axios from "axios";
 
 axios.defaults.headers.common["Authorization"] = "token";
 
-export default function addPost(data) {
+export default function addPost(data, callback) {
   const { id, timestamp, title, body, author, category } = data;
   return dispatch => {
     axios
@@ -16,6 +16,7 @@ export default function addPost(data) {
         category: category
       })
       .then(response => {
+        callback();
         dispatch(addPostAsync(response.data));
       })
       .catch(err => console.log(err));

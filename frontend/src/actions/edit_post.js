@@ -3,7 +3,7 @@ import axios from "axios";
 
 axios.defaults.headers.common["Authorization"] = "token";
 
-export default function editPost(data) {
+export default function editPost(data, callback) {
   const { id, title, body } = data;
   return dispatch => {
     axios
@@ -12,6 +12,7 @@ export default function editPost(data) {
         body: body
       })
       .then(response => {
+        callback();
         dispatch(editPostAsync(response.data));
       })
       .catch(err => console.log(err));
