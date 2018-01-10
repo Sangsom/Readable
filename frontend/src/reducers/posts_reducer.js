@@ -1,4 +1,4 @@
-import { FETCH_POSTS, ADD_POST } from "../actions/actions";
+import { FETCH_POSTS, ADD_POST, EDIT_POST } from "../actions/actions";
 
 export default function(state = [], action) {
   switch (action.type) {
@@ -17,6 +17,20 @@ export default function(state = [], action) {
           category
         }
       ];
+    case EDIT_POST:
+      return state.map(post => {
+        if (post.id === action.payload.id) {
+          return {
+            ...post,
+            title: action.payload.title,
+            body: action.payload.body
+          };
+        }
+
+        return {
+          ...post
+        };
+      });
     default:
       return state;
   }

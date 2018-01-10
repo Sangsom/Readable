@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Form, Header } from "semantic-ui-react";
 import fetchPostDetails from "../actions/fetch_post_details";
+import editPost from "../actions/edit_post";
 
 class EditPost extends Component {
   state = {
+    id: "",
     title: "",
     body: ""
   };
@@ -14,21 +16,49 @@ class EditPost extends Component {
     this.props.fetchPostDetails(id);
   }
 
+  componentWillReceiveProps(nextProps) {
+    // Set the local state after post details are loaded
+    const { id, title, body } = nextProps.postDetails;
+    this.setState({
+      id,
+      title,
+      body
+    });
+  }
+
+  handleChange = (e, { name, value }) => this.setState({ [name]: value });
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const { id, title, body } = this.state;
+
+    const post_updates = {
+      id,
+      title,
+      body
+    };
+    this.props.editPost(post_updates);
+  };
+
   render() {
-    console.log(this.props);
+    const { title, body } = this.state;
     return (
-      <Form>
+      <Form onSubmit={this.handleSubmit}>
         <Header size="large">Edit post</Header>
         <Form.Input
           label="Title"
           type="text"
           placeholder="Title"
           name="title"
+          value={title}
+          onChange={this.handleChange}
         />
         <Form.TextArea
           label="Body"
           placeholder="Please enter some post body text"
           name="body"
+          value={body}
+          onChange={this.handleChange}
         />
         <Button type="submit">Submit</Button>
       </Form>
@@ -42,4 +72,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchPostDetails })(EditPost);
+export default connect(mapStateToProps, { fetchPostDetails, editPost })(
+  EditPost
+);

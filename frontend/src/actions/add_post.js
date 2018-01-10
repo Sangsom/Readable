@@ -16,13 +16,13 @@ export default function addPost(data) {
         category: category
       })
       .then(response => {
-        dispatch(addPostsAsync(response.data));
+        dispatch(addPostAsync(response.data));
       })
       .catch(err => console.log(err));
   };
 }
 
-function addPostsAsync(post) {
+function addPostAsync(post) {
   return {
     type: ADD_POST,
     payload: post

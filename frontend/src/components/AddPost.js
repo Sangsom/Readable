@@ -5,6 +5,7 @@ import addPost from "../actions/add_post";
 import fetchCategories from "../actions/fetch_categories";
 import { Button, Form, Header } from "semantic-ui-react";
 
+// Generate UUID
 const uuidv1 = require("uuid/v1");
 
 class AddPost extends Component {

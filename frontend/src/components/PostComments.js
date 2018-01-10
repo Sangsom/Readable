@@ -9,7 +9,6 @@ class PostComments extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { comments } = this.props;
     const commentImage = "../assets/images/elliot.jpg";
     return (
