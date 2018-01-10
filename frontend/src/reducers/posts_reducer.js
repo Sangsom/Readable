@@ -24,17 +24,7 @@ export default function(state = [], action) {
       ];
     case EDIT_POST:
       return state.map(post => {
-        if (post.id === action.payload.id) {
-          return {
-            ...post,
-            title: action.payload.title,
-            body: action.payload.body
-          };
-        }
-
-        return {
-          ...post
-        };
+        return post.id === action.payload.id ? action.payload : post;
       });
     case DELETE_POST:
       return state.filter(post => {
