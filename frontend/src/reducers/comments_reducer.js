@@ -6,7 +6,6 @@ export default function(state = [], action) {
       return action.payload;
     case ADD_COMMENT:
       const { id, timestamp, body, author, parentId } = action.payload;
-      console.log("ADd comment", action.payload);
       return [
         ...state,
         {

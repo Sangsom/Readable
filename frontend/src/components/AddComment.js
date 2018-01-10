@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import addComment from "../actions/add_comment";
 import { Button, Modal, Form } from "semantic-ui-react";
 
@@ -10,7 +11,8 @@ class AddComment extends Component {
     body: "",
     author: "",
     parentId: "",
-    modalOpen: false
+    modalOpen: false,
+    redirect: false
   };
 
   componentDidMount() {
@@ -38,50 +40,58 @@ class AddComment extends Component {
       parentId: parentId
     };
 
-    this.props.addComment(new_comment, () => {});
+    this.props.addComment(new_comment, () => {
+      this.setState({ redirect: true });
+    });
   };
 
   render() {
-    const { author, body } = this.state;
+    const { author, body, parentId } = this.state;
 
     return (
-      <Modal
-        dimmer="blurring"
-        trigger={
-          <Button onClick={this.handleOpen} positive>
-            Add new comment
-          </Button>
-        }
-        open={this.state.modalOpen}
-        onClose={this.handleClose}
-      >
-        <Modal.Header>Post a comment to this post</Modal.Header>
-        <Modal.Content>
-          <Modal.Description>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Input
-                label="Author"
-                type="text"
-                placeholder="Author"
-                name="author"
-                value={author}
-                onChange={this.handleChange}
-              />
-              <Form.TextArea
-                label="Comment"
-                placeholder="Leave a comment here"
-                name="body"
-                value={body}
-                onChange={this.handleChange}
-              />
-              <Button onClick={this.handleModalClose}>Cancel</Button>
-              <Button positive type="submit">
-                Submit
+      <div>
+        {this.state.redirect ? (
+          <Redirect to={`/posts/${parentId}`} />
+        ) : (
+          <Modal
+            dimmer="blurring"
+            trigger={
+              <Button onClick={this.handleOpen} positive>
+                Add new comment
               </Button>
-            </Form>
-          </Modal.Description>
-        </Modal.Content>
-      </Modal>
+            }
+            open={this.state.modalOpen}
+            onClose={this.handleClose}
+          >
+            <Modal.Header>Post a comment to this post</Modal.Header>
+            <Modal.Content>
+              <Modal.Description>
+                <Form onSubmit={this.handleSubmit}>
+                  <Form.Input
+                    label="Author"
+                    type="text"
+                    placeholder="Author"
+                    name="author"
+                    value={author}
+                    onChange={this.handleChange}
+                  />
+                  <Form.TextArea
+                    label="Comment"
+                    placeholder="Leave a comment here"
+                    name="body"
+                    value={body}
+                    onChange={this.handleChange}
+                  />
+                  <Button onClick={this.handleModalClose}>Cancel</Button>
+                  <Button positive type="submit">
+                    Submit
+                  </Button>
+                </Form>
+              </Modal.Description>
+            </Modal.Content>
+          </Modal>
+        )}
+      </div>
     );
   }
 }
