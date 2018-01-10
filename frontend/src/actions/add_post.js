@@ -1,13 +1,14 @@
 import { ADD_POST } from "./actions";
+import { BASE_URL, TOKEN } from "../utils/constants";
 import axios from "axios";
 
-axios.defaults.headers.common["Authorization"] = "token";
+axios.defaults.headers.common["Authorization"] = TOKEN;
 
 export default function addPost(data, callback) {
   const { id, timestamp, title, body, author, category } = data;
   return dispatch => {
     axios
-      .post(`http://localhost:3001/posts`, {
+      .post(`${BASE_URL}/posts`, {
         id: id,
         timestamp: timestamp,
         title: title,

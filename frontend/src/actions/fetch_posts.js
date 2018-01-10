@@ -1,14 +1,13 @@
 import { FETCH_POSTS } from "./actions";
+import { BASE_URL, TOKEN } from "../utils/constants";
 import axios from "axios";
+
+axios.defaults.headers.common["Authorization"] = TOKEN;
 
 export default function fetchPosts() {
   return dispatch => {
     axios
-      .get(`http://localhost:3001/posts`, {
-        headers: {
-          Authorization: "token"
-        }
-      })
+      .get(`${BASE_URL}/posts`)
       .then(response => {
         dispatch(fetchPostsAsync(response.data));
       })

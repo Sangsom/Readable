@@ -1,13 +1,14 @@
 import { EDIT_POST } from "./actions";
+import { BASE_URL, TOKEN } from "../utils/constants";
 import axios from "axios";
 
-axios.defaults.headers.common["Authorization"] = "token";
+axios.defaults.headers.common["Authorization"] = TOKEN;
 
 export default function editPost(data, callback) {
   const { id, title, body } = data;
   return dispatch => {
     axios
-      .put(`http://localhost:3001/posts/${id}`, {
+      .put(`${BASE_URL}/posts/${id}`, {
         title: title,
         body: body
       })

@@ -1,12 +1,13 @@
 import { DELETE_POST } from "./actions";
+import { BASE_URL, TOKEN } from "../utils/constants";
 import axios from "axios";
 
-axios.defaults.headers.common["Authorization"] = "token";
+axios.defaults.headers.common["Authorization"] = TOKEN;
 
 export default function deletePost(id, callback) {
   return dispatch => {
     axios
-      .delete(`http://localhost:3001/posts/${id}`)
+      .delete(`${BASE_URL}/posts/${id}`)
       .then(response => {
         callback();
         dispatch(deletePostAsync(id));

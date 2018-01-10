@@ -1,14 +1,13 @@
 import { FETCH_CATEGORIES } from "./actions";
+import { BASE_URL, TOKEN } from "../utils/constants";
 import axios from "axios";
+
+axios.defaults.headers.common["Authorization"] = TOKEN;
 
 export default function fetchCategories() {
   return dispatch => {
     axios
-      .get("http://localhost:3001/categories", {
-        headers: {
-          Authorization: "token"
-        }
-      })
+      .get(`${BASE_URL}/categories`)
       .then(response => {
         dispatch(fetchCategoriesAsync(response.data.categories));
       })
