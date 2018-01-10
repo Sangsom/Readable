@@ -37,7 +37,7 @@ class EditPost extends Component {
       title,
       body
     };
-    this.props.editPost(post_updates);
+    this.props.editPost(post_updates, () => {});
   };
 
   render() {

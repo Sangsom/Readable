@@ -42,7 +42,7 @@ class AddPost extends Component {
       category: category
     };
 
-    this.props.addPost(new_post);
+    this.props.addPost(new_post, () => {});
   };
 
   render() {
