@@ -17,6 +17,7 @@ class AddComment extends Component {
   componentDidMount() {
     const { postId } = this.props;
     this.setState({ parentId: postId });
+    console.log(this.props);
   }
 
   handleOpen = () => {
@@ -91,7 +92,8 @@ class AddComment extends Component {
 }
 
 AddComment.propTypes = {
-  postId: PropTypes.string.isRequired
+  postId: PropTypes.string.isRequired,
+  addComment: PropTypes.func.isRequired
 };
 
 export default connect(null, { addComment })(AddComment);

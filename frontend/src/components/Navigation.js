@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import fetchCategories from "../actions/fetch_categories";
 import { Header, Menu, Button } from "semantic-ui-react";
@@ -62,3 +63,8 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { fetchCategories })(Navigation);
+
+Navigation.propTypes = {
+  categories: PropTypes.array.isRequired,
+  fetchCategories: PropTypes.func.isRequired
+};
