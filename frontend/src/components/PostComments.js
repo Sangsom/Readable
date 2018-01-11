@@ -1,12 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import fetchComments from "../actions/fetch_comments";
-import { Feed, Header, Icon } from "semantic-ui-react";
+import { Feed, Header, Icon, Modal, Button } from "semantic-ui-react";
 
 class PostComments extends Component {
   componentDidMount() {
     this.props.fetchComments(this.props.id);
   }
+  /**
+   * TODO: Create modal for editing comment
+   * TODO: Delete Comment
+   * TODO: UpVote
+   * TODO: DownVote
+   */
+
+  deleteComment = () => {};
 
   render() {
     const { comments } = this.props;
@@ -30,7 +38,13 @@ class PostComments extends Component {
                 <Feed.Extra text>{comment.body}</Feed.Extra>
                 <Feed.Extra>
                   <Icon link name="edit" size="large" color="yellow" />
-                  <Icon link name="ban" size="large" color="red" />
+                  <Icon
+                    link
+                    name="ban"
+                    size="large"
+                    color="red"
+                    onClick={this.deleteComment}
+                  />
                 </Feed.Extra>
                 <Feed.Meta>
                   <Feed.Like>

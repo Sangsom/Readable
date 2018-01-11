@@ -1,4 +1,4 @@
-import { FETCH_COMMENTS, ADD_COMMENT } from "../actions/actions";
+import { FETCH_COMMENTS, ADD_COMMENT, EDIT_COMMENT } from "../actions/actions";
 
 export default function(state = [], action) {
   switch (action.type) {
@@ -16,6 +16,11 @@ export default function(state = [], action) {
           parentId
         }
       ];
+    case EDIT_COMMENT:
+      return state.map(comment => {
+        console.log(comment);
+        return comment;
+      });
     default:
       return state;
   }
