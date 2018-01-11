@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import addComment from "../actions/add_comment";
 import { Button, Modal, Form } from "semantic-ui-react";
 
@@ -88,5 +89,9 @@ class AddComment extends Component {
     );
   }
 }
+
+AddComment.propTypes = {
+  postId: PropTypes.string.isRequired
+};
 
 export default connect(null, { addComment })(AddComment);
