@@ -28,6 +28,10 @@ class PostComments extends Component {
                   <Feed.User>{`${comment.author}`}</Feed.User> commented...
                 </Feed.Summary>
                 <Feed.Extra text>{comment.body}</Feed.Extra>
+                <Feed.Extra>
+                  <Icon link name="edit" size="large" color="yellow" />
+                  <Icon link name="ban" size="large" color="red" />
+                </Feed.Extra>
                 <Feed.Meta>
                   <Feed.Like>
                     <Icon
