@@ -13,7 +13,8 @@ export default function addComment(data, callback) {
         timestamp: timestamp,
         body: body,
         author: author,
-        parentId: parentId
+        parentId: parentId,
+        voteScore: 1
       })
       .then(response => {
         callback();

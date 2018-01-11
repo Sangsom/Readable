@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import fetchComments from "../actions/fetch_comments";
+import deleteComment from "../actions/delete_comment";
 import { Feed, Header, Icon, Modal, Button } from "semantic-ui-react";
 
 class PostComments extends Component {
@@ -14,7 +15,9 @@ class PostComments extends Component {
    * TODO: DownVote
    */
 
-  deleteComment = () => {};
+  deleteComment = id => {
+    this.props.deleteComment(id, () => {});
+  };
 
   render() {
     const { comments } = this.props;
@@ -43,7 +46,7 @@ class PostComments extends Component {
                     name="ban"
                     size="large"
                     color="red"
-                    onClick={this.deleteComment}
+                    onClick={() => this.deleteComment(comment.id)}
                   />
                 </Feed.Extra>
                 <Feed.Meta>
@@ -72,4 +75,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchComments })(PostComments);
+export default connect(mapStateToProps, { fetchComments, deleteComment })(
+  PostComments
+);

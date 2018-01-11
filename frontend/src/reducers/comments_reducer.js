@@ -1,11 +1,23 @@
-import { FETCH_COMMENTS, ADD_COMMENT, EDIT_COMMENT } from "../actions/actions";
+import {
+  FETCH_COMMENTS,
+  ADD_COMMENT,
+  EDIT_COMMENT,
+  DELETE_COMMENT
+} from "../actions/actions";
 
 export default function(state = [], action) {
   switch (action.type) {
     case FETCH_COMMENTS:
       return action.payload;
     case ADD_COMMENT:
-      const { id, timestamp, body, author, parentId } = action.payload;
+      const {
+        id,
+        timestamp,
+        body,
+        author,
+        parentId,
+        voteScore
+      } = action.payload;
       return [
         ...state,
         {
@@ -13,13 +25,17 @@ export default function(state = [], action) {
           timestamp,
           body,
           author,
-          parentId
+          parentId,
+          voteScore
         }
       ];
     case EDIT_COMMENT:
       return state.map(comment => {
-        console.log(comment);
         return comment;
+      });
+    case DELETE_COMMENT:
+      return state.filter(comment => {
+        return comment.id !== action.payload;
       });
     default:
       return state;
