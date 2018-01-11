@@ -2,17 +2,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import fetchComments from "../actions/fetch_comments";
 import deleteComment from "../actions/delete_comment";
+import editComment from "../actions/edit_comment";
 import { upVoteComment, downVoteComment } from "../actions/vote_comment";
-import { Feed, Header, Icon, Modal, Button } from "semantic-ui-react";
+import { Feed, Header, Icon, Modal, Button, Form } from "semantic-ui-react";
 
 class PostComments extends Component {
+  state = {
+    modalOpen: false,
+    id: "",
+    body: ""
+  };
+
   componentDidMount() {
     this.props.fetchComments(this.props.id);
   }
+
   /**
-   * TODO: Create modal for editing comment
-   * TODO: UpVote
-   * TODO: DownVote
    * TODO: Add popups
    */
 
@@ -20,7 +25,34 @@ class PostComments extends Component {
     this.props.deleteComment(id, () => {});
   };
 
+  handleOpen = (id, body) => {
+    this.setState({ modalOpen: true, id, body });
+  };
+
+  handleClose = () => {
+    this.setState({ modalOpen: false });
+  };
+
+  handleChange = (e, { name, value }) => this.setState({ [name]: value });
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const { id, body } = this.state;
+    const updated_comment = {
+      id,
+      timestamp: Date.now(),
+      body
+    };
+
+    this.props.editComment(updated_comment, () => {
+      this.setState({
+        modalOpen: false
+      });
+    });
+  };
+
   render() {
+    const { body } = this.state;
     const { comments } = this.props;
     const commentImage = "../assets/images/elliot.jpg";
     return (
@@ -55,13 +87,47 @@ class PostComments extends Component {
                     color="red"
                     onClick={() => this.props.downVoteComment(comment.id)}
                   />
-                  <Icon link name="edit" size="large" color="yellow" />
+                  <Modal
+                    closeIcon
+                    closeOnEscape={false}
+                    closeOnRootNodeClick={false}
+                    size="mini"
+                    open={this.state.modalOpen}
+                    onClose={this.handleClose}
+                    trigger={
+                      <Icon
+                        link
+                        name="edit"
+                        size="large"
+                        color="yellow"
+                        onClick={() =>
+                          this.handleOpen(comment.id, comment.body)
+                        }
+                      />
+                    }
+                  >
+                    <Header size="large" content="Edit comment" />
+                    <Modal.Content>
+                      <Form onSubmit={this.handleSubmit}>
+                        <Form.TextArea
+                          label=""
+                          placeholder="Edit your comment"
+                          name="body"
+                          value={body}
+                          onChange={this.handleChange}
+                        />
+                        <Button positive type="submit">
+                          Submit
+                        </Button>
+                      </Form>
+                    </Modal.Content>
+                  </Modal>
                   <Icon
                     link
                     name="ban"
                     size="large"
                     color="red"
-                    onClick={() => this.deleteComment(comment.id)}
+                    onClick={e => this.deleteComment(comment.id)}
                   />
                 </Feed.Extra>
                 <Feed.Meta>
@@ -92,6 +158,7 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   fetchComments,
+  editComment,
   deleteComment,
   upVoteComment,
   downVoteComment

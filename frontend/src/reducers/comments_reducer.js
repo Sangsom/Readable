@@ -33,6 +33,9 @@ export default function(state = [], action) {
       ];
     case EDIT_COMMENT:
       return state.map(comment => {
+        if (comment.id === action.payload.id) {
+          comment.body = action.payload.body;
+        }
         return comment;
       });
     case DELETE_COMMENT:
