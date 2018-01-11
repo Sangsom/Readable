@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import fetchPosts from "../actions/fetch_posts";
-import { Button, Item, Header } from "semantic-ui-react";
+import { upVotePost, downVotePost } from "../actions/vote_post";
+import { Button, Item, Header, Icon } from "semantic-ui-react";
 
 const orderKeys = [
   {
@@ -99,6 +100,22 @@ class Posts extends Component {
                         <b>Comment count:</b> {commentCount}
                       </p>
                     </Item.Meta>
+                    <Item.Extra>
+                      <Icon
+                        link
+                        name="thumbs up"
+                        size="large"
+                        color="green"
+                        onClick={() => this.props.upVotePost(id)}
+                      />
+                      <Icon
+                        link
+                        name="thumbs down"
+                        size="large"
+                        color="red"
+                        onClick={() => this.props.downVotePost(id)}
+                      />
+                    </Item.Extra>
                   </Item.Content>
                 </Item>
               )
@@ -127,4 +144,6 @@ function mapStateToProps({ posts }, { match }) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, { fetchPosts })(Posts));
+export default withRouter(
+  connect(mapStateToProps, { fetchPosts, upVotePost, downVotePost })(Posts)
+);

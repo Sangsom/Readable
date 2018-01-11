@@ -2,7 +2,9 @@ import {
   FETCH_POSTS,
   ADD_POST,
   EDIT_POST,
-  DELETE_POST
+  DELETE_POST,
+  UPVOTE_POST,
+  DOWNVOTE_POST
 } from "../actions/actions";
 
 export default function(state = [], action) {
@@ -29,6 +31,20 @@ export default function(state = [], action) {
     case DELETE_POST:
       return state.filter(post => {
         return post.id !== action.payload;
+      });
+    case UPVOTE_POST:
+      return state.map(post => {
+        if (post.id === action.payload) {
+          post.voteScore += 1;
+        }
+        return post;
+      });
+    case DOWNVOTE_POST:
+      return state.map(post => {
+        if (post.id === action.payload) {
+          post.voteScore -= 1;
+        }
+        return post;
       });
     default:
       return state;
