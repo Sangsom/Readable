@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import fetchComments from "../actions/fetch_comments";
 import deleteComment from "../actions/delete_comment";
+import { upVoteComment, downVoteComment } from "../actions/vote_comment";
 import { Feed, Header, Icon, Modal, Button } from "semantic-ui-react";
 
 class PostComments extends Component {
@@ -10,9 +11,9 @@ class PostComments extends Component {
   }
   /**
    * TODO: Create modal for editing comment
-   * TODO: Delete Comment
    * TODO: UpVote
    * TODO: DownVote
+   * TODO: Add popups
    */
 
   deleteComment = id => {
@@ -40,6 +41,20 @@ class PostComments extends Component {
                 </Feed.Summary>
                 <Feed.Extra text>{comment.body}</Feed.Extra>
                 <Feed.Extra>
+                  <Icon
+                    link
+                    name="thumbs up"
+                    size="large"
+                    color="green"
+                    onClick={() => this.props.upVoteComment(comment.id)}
+                  />
+                  <Icon
+                    link
+                    name="thumbs down"
+                    size="large"
+                    color="red"
+                    onClick={() => this.props.downVoteComment(comment.id)}
+                  />
                   <Icon link name="edit" size="large" color="yellow" />
                   <Icon
                     link
@@ -75,6 +90,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchComments, deleteComment })(
-  PostComments
-);
+export default connect(mapStateToProps, {
+  fetchComments,
+  deleteComment,
+  upVoteComment,
+  downVoteComment
+})(PostComments);

@@ -2,7 +2,9 @@ import {
   FETCH_COMMENTS,
   ADD_COMMENT,
   EDIT_COMMENT,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  UPVOTE_COMMENT,
+  DOWNVOTE_COMMENT
 } from "../actions/actions";
 
 export default function(state = [], action) {
@@ -36,6 +38,20 @@ export default function(state = [], action) {
     case DELETE_COMMENT:
       return state.filter(comment => {
         return comment.id !== action.payload;
+      });
+    case UPVOTE_COMMENT:
+      return state.map(comment => {
+        if (comment.id === action.payload) {
+          comment.voteScore += 1;
+        }
+        return comment;
+      });
+    case DOWNVOTE_COMMENT:
+      return state.map(comment => {
+        if (comment.id === action.payload) {
+          comment.voteScore -= 1;
+        }
+        return comment;
       });
     default:
       return state;
