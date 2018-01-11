@@ -40,7 +40,7 @@ class AddComment extends Component {
     };
 
     this.props.addComment(new_comment, () => {
-      this.setState({ redirect: true, modalOpen: false });
+      this.handleClose();
     });
   };
 
