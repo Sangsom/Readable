@@ -4,18 +4,9 @@ import PropTypes from "prop-types";
 import fetchComments from "../actions/fetch_comments";
 import deleteComment from "../actions/delete_comment";
 import editComment from "../actions/edit_comment";
-import VoteButton from "./VoteButton";
+import CommentActions from "./CommentActions";
 import { upVoteComment, downVoteComment } from "../actions/vote_comment";
-import { popupStyle } from "../utils/constants";
-import {
-  Feed,
-  Header,
-  Icon,
-  Modal,
-  Button,
-  Form,
-  Popup
-} from "semantic-ui-react";
+import { Feed, Header, Icon, Modal, Button, Form } from "semantic-ui-react";
 
 class PostComments extends Component {
   state = {
@@ -80,41 +71,11 @@ class PostComments extends Component {
                 </Feed.Summary>
                 <Feed.Extra text>{body}</Feed.Extra>
                 <Feed.Extra>
-                  <VoteButton
-                    vote="like"
-                    voteClick={() => this.props.upVoteComment(id)}
-                  />
-                  <VoteButton
-                    vote="dislike"
-                    voteClick={() => this.props.downVoteComment(id)}
-                  />
-                  <Popup
-                    trigger={
-                      <Icon
-                        link
-                        name="edit"
-                        size="large"
-                        color="yellow"
-                        onClick={() => this.handleOpen(id, body)}
-                      />
-                    }
-                    content="Edit comment"
-                    style={popupStyle}
-                    inverted
-                  />
-                  <Popup
-                    trigger={
-                      <Icon
-                        link
-                        name="ban"
-                        size="large"
-                        color="red"
-                        onClick={e => this.deleteComment(id)}
-                      />
-                    }
-                    content="Delete comment"
-                    style={popupStyle}
-                    inverted
+                  <CommentActions
+                    id={id}
+                    handleOpen={this.handleOpen}
+                    deleteComment={this.deleteComment}
+                    body={body}
                   />
                 </Feed.Extra>
                 <Feed.Meta>
