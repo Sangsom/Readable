@@ -5,7 +5,8 @@ import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import fetchPosts from "../actions/fetch_posts";
 import { upVotePost, downVotePost } from "../actions/vote_post";
-import { Button, Item, Header, Icon, Popup } from "semantic-ui-react";
+import { Button, Item, Header } from "semantic-ui-react";
+import VoteButton from "./VoteButton";
 
 const orderKeys = [
   {
@@ -33,12 +34,6 @@ const orderKeys = [
     text: "Comments"
   }
 ];
-
-const style = {
-  borderRadius: 5,
-  opacity: 0.9,
-  padding: "1em"
-};
 
 class Posts extends Component {
   state = {
@@ -108,27 +103,13 @@ class Posts extends Component {
                       </p>
                     </Item.Meta>
                     <Item.Extra>
-                      <Popup
-                        trigger={
-                          <Icon
-                            link
-                            name="thumbs up"
-                            size="large"
-                            color="green"
-                            onClick={() => this.props.upVotePost(id)}
-                          />
-                        }
-                        content="Like it"
-                        style={style}
-                        inverted
+                      <VoteButton
+                        vote="like"
+                        voteClick={() => this.props.upVotePost(id)}
                       />
-
-                      <Icon
-                        link
-                        name="thumbs down"
-                        size="large"
-                        color="red"
-                        onClick={() => this.props.downVotePost(id)}
+                      <VoteButton
+                        vote="dislike"
+                        voteClick={() => this.props.downVotePost(id)}
                       />
                     </Item.Extra>
                   </Item.Content>
