@@ -1,12 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Icon, Popup } from "semantic-ui-react";
-
-const popupStyle = {
-  borderRadius: 5,
-  opacity: 0.9,
-  padding: "1em"
-};
+import { popupStyle } from "../utils/constants";
 
 const VoteButton = props => {
   const { vote } = props;

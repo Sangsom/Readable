@@ -6,7 +6,16 @@ import deleteComment from "../actions/delete_comment";
 import editComment from "../actions/edit_comment";
 import VoteButton from "./VoteButton";
 import { upVoteComment, downVoteComment } from "../actions/vote_comment";
-import { Feed, Header, Icon, Modal, Button, Form } from "semantic-ui-react";
+import { popupStyle } from "../utils/constants";
+import {
+  Feed,
+  Header,
+  Icon,
+  Modal,
+  Button,
+  Form,
+  Popup
+} from "semantic-ui-react";
 
 class PostComments extends Component {
   state = {
@@ -18,10 +27,6 @@ class PostComments extends Component {
   componentDidMount() {
     this.props.fetchComments(this.props.id);
   }
-
-  /**
-   * TODO: Add popups
-   */
 
   deleteComment = id => {
     this.props.deleteComment(id, () => {});
@@ -118,12 +123,19 @@ class PostComments extends Component {
                       </Form>
                     </Modal.Content>
                   </Modal>
-                  <Icon
-                    link
-                    name="ban"
-                    size="large"
-                    color="red"
-                    onClick={e => this.deleteComment(comment.id)}
+                  <Popup
+                    trigger={
+                      <Icon
+                        link
+                        name="ban"
+                        size="large"
+                        color="red"
+                        onClick={e => this.deleteComment(comment.id)}
+                      />
+                    }
+                    content="Delete comment"
+                    style={popupStyle}
+                    inverted
                   />
                 </Feed.Extra>
                 <Feed.Meta>
