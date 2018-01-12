@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import fetchComments from "../actions/fetch_comments";
 import deleteComment from "../actions/delete_comment";
 import editComment from "../actions/edit_comment";
+import VoteButton from "./VoteButton";
 import { upVoteComment, downVoteComment } from "../actions/vote_comment";
 import { Feed, Header, Icon, Modal, Button, Form } from "semantic-ui-react";
 
@@ -74,19 +75,13 @@ class PostComments extends Component {
                 </Feed.Summary>
                 <Feed.Extra text>{comment.body}</Feed.Extra>
                 <Feed.Extra>
-                  <Icon
-                    link
-                    name="thumbs up"
-                    size="large"
-                    color="green"
-                    onClick={() => this.props.upVoteComment(comment.id)}
+                  <VoteButton
+                    vote="like"
+                    voteClick={() => this.props.upVoteComment(comment.id)}
                   />
-                  <Icon
-                    link
-                    name="thumbs down"
-                    size="large"
-                    color="red"
-                    onClick={() => this.props.downVoteComment(comment.id)}
+                  <VoteButton
+                    vote="dislike"
+                    voteClick={() => this.props.downVoteComment(comment.id)}
                   />
                   <Modal
                     closeIcon

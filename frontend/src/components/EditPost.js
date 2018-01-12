@@ -32,7 +32,6 @@ class EditPost extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { id, title, body } = this.state;
-
     const post_updates = {
       id,
       title,

@@ -62,9 +62,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchCategories })(Navigation);
-
 Navigation.propTypes = {
   categories: PropTypes.array.isRequired,
   fetchCategories: PropTypes.func.isRequired
 };
+
+export default connect(mapStateToProps, { fetchCategories })(Navigation);
