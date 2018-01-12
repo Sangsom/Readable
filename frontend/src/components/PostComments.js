@@ -59,70 +59,49 @@ class PostComments extends Component {
   };
 
   render() {
-    const { body } = this.state;
+    const { body, modalOpen } = this.state;
     const { comments } = this.props;
     const commentImage = "../assets/images/elliot.jpg";
     return (
       <div>
         <Feed>
           <Header size="large">Comments</Header>
-          {comments.map(comment => (
-            <Feed.Event key={comment.id}>
+          {comments.map(({ id, body, timestamp, author, voteScore }) => (
+            <Feed.Event key={id}>
               <Feed.Label image={commentImage} />
               <Feed.Content>
                 <Feed.Date>
-                  {`${new Date(comment.timestamp).toDateString()} at ${new Date(
-                    comment.timestamp
+                  {`${new Date(timestamp).toDateString()} at ${new Date(
+                    timestamp
                   ).toLocaleTimeString()}`}
                 </Feed.Date>
                 <Feed.Summary>
-                  <Feed.User>{`${comment.author}`}</Feed.User> commented...
+                  <Feed.User>{`${author}`}</Feed.User> commented...
                 </Feed.Summary>
-                <Feed.Extra text>{comment.body}</Feed.Extra>
+                <Feed.Extra text>{body}</Feed.Extra>
                 <Feed.Extra>
                   <VoteButton
                     vote="like"
-                    voteClick={() => this.props.upVoteComment(comment.id)}
+                    voteClick={() => this.props.upVoteComment(id)}
                   />
                   <VoteButton
                     vote="dislike"
-                    voteClick={() => this.props.downVoteComment(comment.id)}
+                    voteClick={() => this.props.downVoteComment(id)}
                   />
-                  <Modal
-                    closeIcon
-                    closeOnEscape={false}
-                    closeOnRootNodeClick={false}
-                    size="mini"
-                    open={this.state.modalOpen}
-                    onClose={this.handleClose}
+                  <Popup
                     trigger={
                       <Icon
                         link
                         name="edit"
                         size="large"
                         color="yellow"
-                        onClick={() =>
-                          this.handleOpen(comment.id, comment.body)
-                        }
+                        onClick={() => this.handleOpen(id, body)}
                       />
                     }
-                  >
-                    <Header size="large" content="Edit comment" />
-                    <Modal.Content>
-                      <Form onSubmit={this.handleSubmit}>
-                        <Form.TextArea
-                          label=""
-                          placeholder="Edit your comment"
-                          name="body"
-                          value={body}
-                          onChange={this.handleChange}
-                        />
-                        <Button positive type="submit">
-                          Submit
-                        </Button>
-                      </Form>
-                    </Modal.Content>
-                  </Modal>
+                    content="Edit comment"
+                    style={popupStyle}
+                    inverted
+                  />
                   <Popup
                     trigger={
                       <Icon
@@ -130,7 +109,7 @@ class PostComments extends Component {
                         name="ban"
                         size="large"
                         color="red"
-                        onClick={e => this.deleteComment(comment.id)}
+                        onClick={e => this.deleteComment(id)}
                       />
                     }
                     content="Delete comment"
@@ -140,19 +119,41 @@ class PostComments extends Component {
                 </Feed.Extra>
                 <Feed.Meta>
                   <Feed.Like>
-                    <Icon
-                      name="like"
-                      color={comment.voteScore > 0 ? "green" : "red"}
-                    >
+                    <Icon name="like" color={voteScore > 0 ? "green" : "red"}>
                       {" "}
                     </Icon>
-                    {comment.voteScore} Likes
+                    {voteScore} Likes
                   </Feed.Like>
                 </Feed.Meta>
               </Feed.Content>
             </Feed.Event>
           ))}
         </Feed>
+
+        <Modal
+          closeIcon
+          closeOnEscape={false}
+          closeOnRootNodeClick={false}
+          size="mini"
+          open={modalOpen}
+          onClose={this.handleClose}
+        >
+          <Header size="large" content="Edit comment" />
+          <Modal.Content>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.TextArea
+                label=""
+                placeholder="Edit your comment"
+                name="body"
+                value={body}
+                onChange={this.handleChange}
+              />
+              <Button positive type="submit">
+                Submit
+              </Button>
+            </Form>
+          </Modal.Content>
+        </Modal>
       </div>
     );
   }
