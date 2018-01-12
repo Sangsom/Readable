@@ -7,7 +7,7 @@ import fetchPostDetails from "../actions/fetch_post_details";
 import deletePost from "../actions/delete_post";
 import PostComments from "./PostComments";
 import AddComment from "./AddComment";
-import { Button, Item, Header, Confirm } from "semantic-ui-react";
+import { Button, Item, Header, Confirm, Message } from "semantic-ui-react";
 
 class PostDetails extends Component {
   state = { id: "", open: false, redirect: false };
@@ -97,7 +97,10 @@ class PostDetails extends Component {
               {postDetails.commentCount > 0 ? (
                 <PostComments id={id} />
               ) : (
-                <p>No comments for this post</p>
+                <Message
+                  floating
+                  content="There are no comments left for this post"
+                />
               )}
             </Item>
           </Item.Group>
