@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 import fetchPostDetails from "../actions/fetch_post_details";
@@ -111,6 +112,12 @@ function mapStateToProps(state) {
     postDetails: state.postDetails
   };
 }
+
+PostDetails.propTypes = {
+  deletePost: PropTypes.func.isRequired,
+  fetchPostDetails: PropTypes.func.isRequired,
+  postDetails: PropTypes.object.isRequired
+};
 
 export default connect(mapStateToProps, { fetchPostDetails, deletePost })(
   PostDetails

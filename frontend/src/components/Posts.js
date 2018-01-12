@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import fetchPosts from "../actions/fetch_posts";
 import { upVotePost, downVotePost } from "../actions/vote_post";
-import { Button, Item, Header, Icon } from "semantic-ui-react";
+import { Button, Item, Header, Icon, Popup } from "semantic-ui-react";
 
 const orderKeys = [
   {
@@ -32,6 +33,12 @@ const orderKeys = [
     text: "Comments"
   }
 ];
+
+const style = {
+  borderRadius: 5,
+  opacity: 0.9,
+  padding: "1em"
+};
 
 class Posts extends Component {
   state = {
@@ -101,13 +108,21 @@ class Posts extends Component {
                       </p>
                     </Item.Meta>
                     <Item.Extra>
-                      <Icon
-                        link
-                        name="thumbs up"
-                        size="large"
-                        color="green"
-                        onClick={() => this.props.upVotePost(id)}
+                      <Popup
+                        trigger={
+                          <Icon
+                            link
+                            name="thumbs up"
+                            size="large"
+                            color="green"
+                            onClick={() => this.props.upVotePost(id)}
+                          />
+                        }
+                        content="Like it"
+                        style={style}
+                        inverted
                       />
+
                       <Icon
                         link
                         name="thumbs down"
@@ -143,6 +158,13 @@ function mapStateToProps({ posts }, { match }) {
     posts: category ? posts.filter(post => post.category === category) : posts
   };
 }
+
+Posts.propTypes = {
+  downVotePost: PropTypes.func.isRequired,
+  upVotePost: PropTypes.func.isRequired,
+  fetchPosts: PropTypes.func.isRequired,
+  posts: PropTypes.array.isRequired
+};
 
 export default withRouter(
   connect(mapStateToProps, { fetchPosts, upVotePost, downVotePost })(Posts)

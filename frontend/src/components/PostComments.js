@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import fetchComments from "../actions/fetch_comments";
 import deleteComment from "../actions/delete_comment";
 import editComment from "../actions/edit_comment";
@@ -155,6 +156,16 @@ function mapStateToProps(state) {
     comments: state.comments
   };
 }
+
+PostComments.propTypes = {
+  comments: PropTypes.array.isRequired,
+  deleteComment: PropTypes.func.isRequired,
+  downVoteComment: PropTypes.func.isRequired,
+  upVoteComment: PropTypes.func.isRequired,
+  editComment: PropTypes.func.isRequired,
+  fetchComments: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired
+};
 
 export default connect(mapStateToProps, {
   fetchComments,

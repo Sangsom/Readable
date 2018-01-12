@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { Button, Form, Header } from "semantic-ui-react";
 import fetchPostDetails from "../actions/fetch_post_details";
 import editPost from "../actions/edit_post";
@@ -74,6 +75,12 @@ function mapStateToProps(state) {
     postDetails: state.postDetails
   };
 }
+
+EditPost.propTypes = {
+  editPost: PropTypes.func.isRequired,
+  fetchPostDetails: PropTypes.func.isRequired,
+  postDetails: PropTypes.object.isRequired
+};
 
 export default connect(mapStateToProps, { fetchPostDetails, editPost })(
   EditPost

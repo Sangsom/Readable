@@ -17,7 +17,6 @@ class AddComment extends Component {
   componentDidMount() {
     const { postId } = this.props;
     this.setState({ parentId: postId });
-    console.log(this.props);
   }
 
   handleOpen = () => {

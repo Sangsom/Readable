@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
+import PropTypes from "prop-types";
 import addPost from "../actions/add_post";
 import fetchCategories from "../actions/fetch_categories";
 import { Button, Form, Header } from "semantic-ui-react";
@@ -104,5 +105,11 @@ function mapStateToProps(state) {
     categories: state.categories
   };
 }
+
+AddPost.propTypes = {
+  addPost: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
+  fetchCategories: PropTypes.func.isRequired
+};
 
 export default connect(mapStateToProps, { addPost, fetchCategories })(AddPost);

@@ -8,8 +8,6 @@ import EditPost from "./EditPost";
 import PostDetails from "./PostDetails";
 
 class Root extends Component {
-  componentDidMount() {}
-
   render() {
     return (
       <div>
