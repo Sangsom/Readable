@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import fetchPosts from "../actions/fetch_posts";
 import { upVotePost, downVotePost } from "../actions/vote_post";
-import { Button, Item, Header } from "semantic-ui-react";
+import { Button, Item, Header, Divider } from "semantic-ui-react";
 import VoteButton from "./VoteButton";
 
 const orderKeys = [
@@ -59,74 +59,81 @@ class Posts extends Component {
     const { orderKey, desc } = this.state;
     return (
       <div>
-        <Item.Group divided>
-          <Header size="large">Posts</Header>
-          {posts
-            .sort((a, b) => {
-              if (desc) {
-                return b[orderKey] < a[orderKey];
-              }
-              return a[orderKey] < b[orderKey];
-            })
-            .map(
-              ({
-                id,
-                title,
-                timestamp,
-                category,
-                author,
-                voteScore,
-                commentCount
-              }) => (
-                <Item key={id}>
-                  <Item.Image src="./assets/images/image.png" />
+        {posts.length > 0 ? (
+          <Item.Group divided>
+            <Header size="large">Posts</Header>
+            {posts
+              .sort((a, b) => {
+                if (desc) {
+                  return b[orderKey] < a[orderKey];
+                }
+                return a[orderKey] < b[orderKey];
+              })
+              .map(
+                ({
+                  id,
+                  title,
+                  timestamp,
+                  category,
+                  author,
+                  voteScore,
+                  commentCount
+                }) => (
+                  <Item key={id}>
+                    <Item.Image src="./assets/images/image.png" />
 
-                  <Item.Content>
-                    <Item.Header as={Link} to={`/posts/${id}`}>
-                      {title}
-                    </Item.Header>
-                    <Item.Meta>
-                      <p>
-                        <b>Author:</b> {author}
-                      </p>
-                      <p>
-                        <b>Category:</b> {category}
-                      </p>
-                      <p>
-                        <b>Date:</b> {new Date(timestamp).toDateString()}
-                      </p>
-                      <p>
-                        <b>VoteScore:</b> {voteScore}
-                      </p>
-                      <p>
-                        <b>Comment count:</b> {commentCount}
-                      </p>
-                    </Item.Meta>
-                    <Item.Extra>
-                      <VoteButton
-                        vote="like"
-                        voteClick={() => this.props.upVotePost(id)}
-                      />
-                      <VoteButton
-                        vote="dislike"
-                        voteClick={() => this.props.downVotePost(id)}
-                      />
-                    </Item.Extra>
-                  </Item.Content>
-                </Item>
-              )
-            )}
-          <Item>
-            <Button.Group>
-              {orderKeys.map(({ key, text }) => (
-                <Button key={key} onClick={() => orderBy(key)}>
-                  {text}
-                  {key === orderKey && (desc ? "▲" : "▼")}
-                </Button>
-              ))}
-            </Button.Group>
-          </Item>
-        </Item.Group>
+                    <Item.Content>
+                      <Item.Header as={Link} to={`/posts/${id}`}>
+                        {title}
+                      </Item.Header>
+                      <Item.Meta>
+                        <p>
+                          <b>Author:</b> {author}
+                        </p>
+                        <p>
+                          <b>Category:</b> {category}
+                        </p>
+                        <p>
+                          <b>Date:</b> {new Date(timestamp).toDateString()}
+                        </p>
+                        <p>
+                          <b>VoteScore:</b> {voteScore}
+                        </p>
+                        <p>
+                          <b>Comment count:</b> {commentCount}
+                        </p>
+                      </Item.Meta>
+                      <Item.Extra>
+                        <VoteButton
+                          vote="like"
+                          voteClick={() => this.props.upVotePost(id)}
+                        />
+                        <VoteButton
+                          vote="dislike"
+                          voteClick={() => this.props.downVotePost(id)}
+                        />
+                      </Item.Extra>
+                    </Item.Content>
+                  </Item>
+                )
+              )}
+            <Item>
+              <Button.Group>
+                {orderKeys.map(({ key, text }) => (
+                  <Button key={key} onClick={() => orderBy(key)}>
+                    {text}
+                    {key === orderKey && (desc ? "▲" : "▼")}
+                  </Button>
+                ))}
+              </Button.Group>
+            </Item>
+          </Item.Group>
+        ) : (
+          <div>
+            <Header size="large">There are no posts in this category</Header>
+            <Divider fitted />
+          </div>
+        )}
       </div>
     );
   }

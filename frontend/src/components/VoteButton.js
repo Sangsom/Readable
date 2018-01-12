@@ -43,6 +43,7 @@ const VoteButton = props => {
       }
       content={voteType.content}
       style={popupStyle}
+      size="small"
       inverted
     />
   );

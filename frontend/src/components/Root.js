@@ -10,16 +10,18 @@ import PostDetails from "./PostDetails";
 class Root extends Component {
   render() {
     return (
-      <div>
+      <div className="wrapper">
         <Navigation />
 
-        <Switch>
-          <Route path="/" exact component={Posts} />
-          <Route path="/posts/:id" component={PostDetails} />
-          <Route path="/add-post" component={AddPost} />
-          <Route path="/edit-post/:id" component={EditPost} />
-          <Route path="/:category" component={Posts} />
-        </Switch>
+        <div className="content">
+          <Switch>
+            <Route path="/" exact component={Posts} />
+            <Route path="/posts/:id" component={PostDetails} />
+            <Route path="/add-post" component={AddPost} />
+            <Route path="/edit-post/:id" component={EditPost} />
+            <Route path="/:category" component={Posts} />
+          </Switch>
+        </div>
       </div>
     );
   }

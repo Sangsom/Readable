@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import fetchCategories from "../actions/fetch_categories";
-import { Header, Menu, Button } from "semantic-ui-react";
+import { Header, Menu, Button, Item } from "semantic-ui-react";
 
 class Navigation extends Component {
   state = {
@@ -29,28 +29,34 @@ class Navigation extends Component {
     ];
 
     return (
-      <div>
-        <Header size="large">Categories</Header>
-        <Menu inverted vertical>
-          {categoriesList.map(name => (
-            <Menu.Item
+      <div className="navigation">
+        <Item.Group divided>
+          <Header size="large">Categories</Header>
+          <Item>
+            <Menu inverted vertical>
+              {categoriesList.map(name => (
+                <Menu.Item
+                  as={Link}
+                  to={name === "all" ? "" : `/${name}`}
+                  name={name}
+                  color="olive"
+                  key={name}
+                  active={activeItem === name}
+                  onClick={this.handleActiveItem}
+                />
+              ))}
+            </Menu>
+          </Item>
+          <Item>
+            <Button
               as={Link}
-              to={name === "all" ? "" : `/${name}`}
-              name={name}
-              color="olive"
-              key={name}
-              active={activeItem === name}
-              onClick={this.handleActiveItem}
+              to="/add-post/"
+              basic
+              color="green"
+              content="Add New Post"
             />
-          ))}
-        </Menu>
-        <Button
-          as={Link}
-          to="/add-post/"
-          basic
-          color="green"
-          content="Add New Post"
-        />
+          </Item>
+        </Item.Group>
       </div>
     );
   }

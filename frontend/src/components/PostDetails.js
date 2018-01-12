@@ -22,6 +22,13 @@ class PostDetails extends Component {
     this.setState({ id });
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(nextProps);
+    console.log(nextState);
+
+    return true;
+  }
+
   show = () => this.setState({ open: true });
 
   handleCancel = () => {
