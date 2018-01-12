@@ -36,7 +36,15 @@ class PostDetails extends Component {
   };
 
   render() {
-    const { postDetails } = this.props;
+    const {
+      title,
+      body,
+      author,
+      category,
+      timestamp,
+      voteScore,
+      commentCount
+    } = this.props.postDetails;
     const id = this.props.match.params.id;
 
     return (
@@ -49,27 +57,26 @@ class PostDetails extends Component {
             <Item>
               <Item.Image src="../assets/images/image.png" />
               <Item.Content>
-                <Item.Header as="h2">{postDetails.title}</Item.Header>
-                <Item.Description>{postDetails.body}</Item.Description>
+                <Item.Header as="h2">{title}</Item.Header>
+                <Item.Description>{body}</Item.Description>
                 <Item.Meta>
                   <p>
-                    <b>Author:</b> {postDetails.author}
+                    <b>Author:</b> {author}
                   </p>
                   <p>
-                    <b>Category:</b> {postDetails.category}
+                    <b>Category:</b> {category}
                   </p>
                   <p>
-                    <b>Date:</b>{" "}
-                    {new Date(postDetails.timestamp).toDateString()}
+                    <b>Date:</b> {new Date(timestamp).toDateString()}
                   </p>
                   <p>
-                    <b>Vote score:</b> {postDetails.voteScore}
+                    <b>Vote score:</b> {voteScore}
                   </p>
                   <p>
-                    <b>Author:</b> {postDetails.author}
+                    <b>Author:</b> {author}
                   </p>
                   <p>
-                    <b>Comment count:</b> {postDetails.commentCount}
+                    <b>Comment count:</b> {commentCount}
                   </p>
                 </Item.Meta>
                 <Item.Extra>
@@ -94,7 +101,7 @@ class PostDetails extends Component {
               </Item.Content>
             </Item>
             <Item>
-              {postDetails.commentCount > 0 ? (
+              {commentCount > 0 ? (
                 <PostComments id={id} />
               ) : (
                 <Message
