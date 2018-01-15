@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import addComment from "../actions/add_comment";
-import { Button, Modal, Form, Message } from "semantic-ui-react";
+import { Button, Modal, Form } from "semantic-ui-react";
 import { Field, reduxForm } from "redux-form";
 
 const uuidv1 = require("uuid/v1");

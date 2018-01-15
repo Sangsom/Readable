@@ -11,16 +11,32 @@ import { InputField, SelectField } from "react-semantic-redux-form";
 // Generate UUID
 const uuidv1 = require("uuid/v1");
 
+const validate = values => {
+  const errors = {};
+  if (!values.title) {
+    errors.title = "Title is Required";
+  }
+
+  if (!values.body) {
+    errors.body = "Body is Required";
+  }
+
+  if (!values.author) {
+    errors.author = "Author is Required";
+  }
+
+  if (!values.category) {
+    errors.category = "Category is Required";
+  }
+  return errors;
+};
+
 class AddPost extends Component {
   componentDidMount() {
     this.props.fetchCategories();
   }
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
-
-  /**
-   * TODO: After form successfully submitted, clear form fields and navigate away
-   */
 
   submitForm = values => {
     const { title, body, author, category } = values;
@@ -105,4 +121,4 @@ AddPost.propTypes = {
 
 AddPost = connect(mapStateToProps, { addPost, fetchCategories })(AddPost);
 
-export default reduxForm({ form: "addPost" })(AddPost);
+export default reduxForm({ form: "addPost", validate })(AddPost);
