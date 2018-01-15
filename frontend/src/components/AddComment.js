@@ -75,75 +75,27 @@ class AddComment extends Component {
   }
 }
 
-const validate = values => {
-  const errors = {};
-  if (!values.author || values.author.length === 0) {
-    errors.author = "Required";
-  } else if (values.author.length > 15) {
-    errors.author = "Must be 15 characters or less";
-  }
-  if (!values.body || values.body.length === 0) {
-    errors.body = "Required";
-  } else if (values.body.length > 150) {
-    errors.body = "Your comment must but up to 150 characters long.";
-  }
-
-  return errors;
-};
-
-const warn = values => {
-  const warnings = {};
-
-  return warnings;
-};
-
-const renderAuthorField = ({
-  input: { value, onChange },
-  meta: { touched, error, warning }
-}) => {
+const renderAuthorField = ({ input: { value, onChange } }) => {
   return (
-    <div>
-      <Form.Input
-        error={touched && error ? true : false}
-        placeholder="Author"
-        name="author"
-        label="Author"
-        value={value}
-        onChange={onChange}
-      />
-      {touched &&
-        ((error && (
-          <Message color="red" size="mini">
-            {error}
-          </Message>
-        )) ||
-          (warning && <span>{warning}</span>))}
-    </div>
+    <Form.Input
+      placeholder="Author"
+      name="author"
+      label="Author"
+      value={value}
+      onChange={onChange}
+    />
   );
 };
 
-const renderBodyField = ({
-  input: { value, onChange },
-  meta: { touched, error, warning }
-}) => {
+const renderBodyField = ({ input: { value, onChange } }) => {
   return (
-    <div>
-      <Form.TextArea
-        error={touched && error ? true : false}
-        label="Comment"
-        placeholder="Leave a comment here"
-        name="body"
-        value={value}
-        onChange={onChange}
-      />
-      {touched &&
-        ((error && (
-          <Message color="red" size="mini">
-            {error}
-          </Message>
-        )) ||
-          (warning && <span>{warning}</span>))}
-    </div>
+    <Form.TextArea
+      label="Comment"
+      placeholder="Leave a comment here"
+      name="body"
+      value={value}
+      onChange={onChange}
+    />
   );
 };
 
@@ -155,4 +107,4 @@ AddComment.propTypes = {
 
 AddComment = connect(null, { addComment })(AddComment);
 
-export default reduxForm({ form: "addComment", validate, warn })(AddComment);
+export default reduxForm({ form: "addComment" })(AddComment);
