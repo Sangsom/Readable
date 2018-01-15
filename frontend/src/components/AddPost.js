@@ -5,20 +5,13 @@ import PropTypes from "prop-types";
 import addPost from "../actions/add_post";
 import fetchCategories from "../actions/fetch_categories";
 import { Button, Form, Header } from "semantic-ui-react";
+import { Field, reduxForm } from "redux-form";
+import { InputField, SelectField } from "react-semantic-redux-form";
 
 // Generate UUID
 const uuidv1 = require("uuid/v1");
 
 class AddPost extends Component {
-  state = {
-    id: "",
-    timestamp: "",
-    title: "",
-    body: "",
-    author: "",
-    category: ""
-  };
-
   componentDidMount() {
     this.props.fetchCategories();
   }
@@ -26,28 +19,26 @@ class AddPost extends Component {
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
   /**
-   * TODO: Validate form fields
    * TODO: After form successfully submitted, clear form fields and navigate away
    */
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { title, body, author, category } = this.state;
+  submitForm = values => {
+    const { title, body, author, category } = values;
 
     const new_post = {
       id: uuidv1(),
       timestamp: Date.now(),
-      title: title,
-      body: body,
-      author: author,
-      category: category
+      title,
+      body,
+      author,
+      category
     };
 
     this.props.addPost(new_post, () => {});
   };
 
   render() {
-    const { title, body, author, category } = this.state;
+    const { handleSubmit } = this.props;
 
     const categories = this.props.categories.map(category => {
       return {
@@ -58,39 +49,39 @@ class AddPost extends Component {
     });
 
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={handleSubmit(this.submitForm)}>
         <Header size="large">Add new post</Header>
-        <Form.Input
-          label="Title"
-          type="text"
-          placeholder="Title"
+        <Field
           name="title"
-          value={title}
-          onChange={this.handleChange}
+          component={InputField}
+          label="Title"
+          placeholder="Title"
+          required
         />
-        <Form.TextArea
-          label="Body"
-          placeholder="Please enter some post body text"
+        <Field
           name="body"
-          value={body}
-          onChange={this.handleChange}
+          component={InputField}
+          label="Body"
+          placeholder="Please enter some body text"
+          required
         />
-        <Form.Input
-          label="Author"
-          type="text"
-          placeholder="Author"
+        <Field
           name="author"
-          value={author}
-          onChange={this.handleChange}
+          component={InputField}
+          label="Author"
+          placeholder="Author"
+          required
         />
-        <Form.Select
+        <Field
+          component={SelectField}
+          name="category"
           label="Category"
           options={categories}
+          onChange={this.props.handleChange}
           placeholder="Select category"
-          name="category"
-          value={category}
-          onChange={this.handleChange}
+          required
         />
+
         <Button onClick={this.props.history.goBack}>Cancel</Button>
         <Button positive type="submit">
           Submit
@@ -112,4 +103,6 @@ AddPost.propTypes = {
   fetchCategories: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, { addPost, fetchCategories })(AddPost);
+AddPost = connect(mapStateToProps, { addPost, fetchCategories })(AddPost);
+
+export default reduxForm({ form: "addPost" })(AddPost);
