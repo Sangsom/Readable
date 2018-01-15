@@ -28,5 +28,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://Sangsom.github.io/Readable"
+  "homepage": "https://Sangsom.github.io/Readable/frontend"
 }
