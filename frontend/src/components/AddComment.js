@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import addComment from "../actions/add_comment";
-import { Button, Modal, Form } from "semantic-ui-react";
+import { Button, Modal, Form, Message } from "semantic-ui-react";
+import { Field, reduxForm } from "redux-form";
 
 const uuidv1 = require("uuid/v1");
 
 class AddComment extends Component {
   state = {
-    body: "",
-    author: "",
     parentId: "",
     modalOpen: false
   };
@@ -29,9 +28,9 @@ class AddComment extends Component {
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { body, author, parentId } = this.state;
+  submitForm = values => {
+    const { parentId } = this.state;
+    const { body, author } = values;
     const new_comment = {
       id: uuidv1(),
       timestamp: Date.now(),
@@ -39,14 +38,13 @@ class AddComment extends Component {
       author: author,
       parentId: parentId
     };
-
     this.props.addComment(new_comment, () => {
       this.handleClose();
     });
   };
 
   render() {
-    const { author, body } = this.state;
+    const { handleSubmit } = this.props;
 
     return (
       <Modal
@@ -62,22 +60,9 @@ class AddComment extends Component {
         <Modal.Header>Post a comment to this post</Modal.Header>
         <Modal.Content>
           <Modal.Description>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Input
-                label="Author"
-                type="text"
-                placeholder="Author"
-                name="author"
-                value={author}
-                onChange={this.handleChange}
-              />
-              <Form.TextArea
-                label="Comment"
-                placeholder="Leave a comment here"
-                name="body"
-                value={body}
-                onChange={this.handleChange}
-              />
+            <Form onSubmit={handleSubmit(this.submitForm)}>
+              <Field name="author" component={renderAuthorField} />
+              <Field name="body" component={renderBodyField} />
               <Button onClick={this.handleClose}>Cancel</Button>
               <Button positive type="submit">
                 Submit
@@ -90,9 +75,84 @@ class AddComment extends Component {
   }
 }
 
-AddComment.propTypes = {
-  postId: PropTypes.string.isRequired,
-  addComment: PropTypes.func.isRequired
+const validate = values => {
+  const errors = {};
+  if (!values.author || values.author.length === 0) {
+    errors.author = "Required";
+  } else if (values.author.length > 15) {
+    errors.author = "Must be 15 characters or less";
+  }
+  if (!values.body || values.body.length === 0) {
+    errors.body = "Required";
+  } else if (values.body.length > 150) {
+    errors.body = "Your comment must but up to 150 characters long.";
+  }
+
+  return errors;
 };
 
-export default connect(null, { addComment })(AddComment);
+const warn = values => {
+  const warnings = {};
+
+  return warnings;
+};
+
+const renderAuthorField = ({
+  input: { value, onChange },
+  meta: { touched, error, warning }
+}) => {
+  return (
+    <div>
+      <Form.Input
+        error={touched && error ? true : false}
+        placeholder="Author"
+        name="author"
+        label="Author"
+        value={value}
+        onChange={onChange}
+      />
+      {touched &&
+        ((error && (
+          <Message color="red" size="mini">
+            {error}
+          </Message>
+        )) ||
+          (warning && <span>{warning}</span>))}
+    </div>
+  );
+};
+
+const renderBodyField = ({
+  input: { value, onChange },
+  meta: { touched, error, warning }
+}) => {
+  return (
+    <div>
+      <Form.TextArea
+        error={touched && error ? true : false}
+        label="Comment"
+        placeholder="Leave a comment here"
+        name="body"
+        value={value}
+        onChange={onChange}
+      />
+      {touched &&
+        ((error && (
+          <Message color="red" size="mini">
+            {error}
+          </Message>
+        )) ||
+          (warning && <span>{warning}</span>))}
+    </div>
+  );
+};
+
+AddComment.propTypes = {
+  postId: PropTypes.string.isRequired,
+  addComment: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
+};
+
+AddComment = connect(null, { addComment })(AddComment);
+
+export default reduxForm({ form: "addComment", validate, warn })(AddComment);
