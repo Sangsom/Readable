@@ -11,6 +11,7 @@ import { InputField, SelectField } from "react-semantic-redux-form";
 // Generate UUID
 const uuidv1 = require("uuid/v1");
 
+// Form validation rules
 const validate = values => {
   const errors = {};
   if (!values.title) {
@@ -40,6 +41,7 @@ class AddPost extends Component {
 
   submitForm = values => {
     const { title, body, author, category } = values;
+    const { reset, history } = this.props;
 
     const new_post = {
       id: uuidv1(),
@@ -49,8 +51,11 @@ class AddPost extends Component {
       author,
       category
     };
-
-    this.props.addPost(new_post, () => {});
+    this.props.addPost(new_post, () => {
+      // Resetting form fields and redirecting to index page
+      reset();
+      history.push("/");
+    });
   };
 
   render() {
