@@ -4,8 +4,23 @@ import PropTypes from "prop-types";
 import addComment from "../actions/add_comment";
 import { Button, Modal, Form } from "semantic-ui-react";
 import { Field, reduxForm } from "redux-form";
+import { InputField } from "react-semantic-redux-form";
 
+// Generate UUID
 const uuidv1 = require("uuid/v1");
+
+// Form validation rules
+const validate = values => {
+  const errors = {};
+  if (!values.author) {
+    errors.author = "Author is Required";
+  }
+
+  if (!values.body) {
+    errors.body = "Body is Required";
+  }
+  return errors;
+};
 
 class AddComment extends Component {
   state = {
@@ -40,6 +55,7 @@ class AddComment extends Component {
     };
     this.props.addComment(new_comment, () => {
       this.handleClose();
+      this.props.reset();
     });
   };
 
@@ -61,8 +77,20 @@ class AddComment extends Component {
         <Modal.Content>
           <Modal.Description>
             <Form onSubmit={handleSubmit(this.submitForm)}>
-              <Field name="author" component={renderAuthorField} />
-              <Field name="body" component={renderBodyField} />
+              <Field
+                name="author"
+                component={InputField}
+                label="Author"
+                placeholder="Author"
+                required
+              />
+              <Field
+                name="body"
+                component={InputField}
+                label="Comment"
+                placeholder="Leave a comment here"
+                required
+              />
               <Button onClick={this.handleClose}>Cancel</Button>
               <Button positive type="submit">
                 Submit
@@ -75,30 +103,6 @@ class AddComment extends Component {
   }
 }
 
-const renderAuthorField = ({ input: { value, onChange } }) => {
-  return (
-    <Form.Input
-      placeholder="Author"
-      name="author"
-      label="Author"
-      value={value}
-      onChange={onChange}
-    />
-  );
-};
-
-const renderBodyField = ({ input: { value, onChange } }) => {
-  return (
-    <Form.TextArea
-      label="Comment"
-      placeholder="Leave a comment here"
-      name="body"
-      value={value}
-      onChange={onChange}
-    />
-  );
-};
-
 AddComment.propTypes = {
   postId: PropTypes.string.isRequired,
   addComment: PropTypes.func.isRequired,
@@ -107,4 +111,4 @@ AddComment.propTypes = {
 
 AddComment = connect(null, { addComment })(AddComment);
 
-export default reduxForm({ form: "addComment" })(AddComment);
+export default reduxForm({ form: "addComment", validate })(AddComment);
