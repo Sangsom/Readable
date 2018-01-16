@@ -4,9 +4,13 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import fetchPosts from "../actions/fetch_posts";
+import deletePost from "../actions/delete_post";
 import { upVotePost, downVotePost } from "../actions/vote_post";
-import { Button, Item, Header, Divider } from "semantic-ui-react";
+import { Button, Item, Header, Divider, Icon, Popup } from "semantic-ui-react";
 import VoteButton from "./VoteButton";
+import { popupStyle } from "../utils/constants";
+
+const popupSize = "large";
 
 const orderKeys = [
   {
@@ -38,7 +42,8 @@ const orderKeys = [
 class Posts extends Component {
   state = {
     orderKey: "voteScore",
-    desc: true
+    desc: true,
+    open: false
   };
 
   orderBy = orderKey => {
@@ -53,8 +58,20 @@ class Posts extends Component {
     this.props.fetchPosts();
   }
 
+  show = () => this.setState({ open: true });
+
+  handleCancel = () => {
+    this.setState({ open: false });
+  };
+
+  handleConfirm = id => {
+    this.props.deletePost(id, () => {
+      this.setState({ open: false });
+    });
+  };
+
   render() {
-    const { posts } = this.props;
+    const { posts, history } = this.props;
     const { orderBy } = this;
     const { orderKey, desc } = this.state;
     return (
@@ -112,6 +129,34 @@ class Posts extends Component {
                           vote="dislike"
                           voteClick={() => this.props.downVotePost(id)}
                         />
+                        <Popup
+                          trigger={
+                            <Icon
+                              link
+                              name="edit"
+                              size={popupSize}
+                              color="yellow"
+                              onClick={() => history.push(`/edit-post/${id}`)}
+                            />
+                          }
+                          content="Edit post"
+                          style={popupStyle}
+                          inverted
+                        />
+                        <Popup
+                          trigger={
+                            <Icon
+                              link
+                              name="ban"
+                              size={popupSize}
+                              color="red"
+                              onClick={() => this.handleConfirm(id)}
+                            />
+                          }
+                          content="Delete post"
+                          style={popupStyle}
+                          inverted
+                        />
                       </Item.Extra>
                     </Item.Content>
                   </Item>
@@ -148,6 +193,7 @@ function mapStateToProps({ posts }, { match }) {
 }
 
 Posts.propTypes = {
+  deletePost: PropTypes.func.isRequired,
   downVotePost: PropTypes.func.isRequired,
   upVotePost: PropTypes.func.isRequired,
   fetchPosts: PropTypes.func.isRequired,
@@ -155,5 +201,10 @@ Posts.propTypes = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, { fetchPosts, upVotePost, downVotePost })(Posts)
+  connect(mapStateToProps, {
+    fetchPosts,
+    upVotePost,
+    downVotePost,
+    deletePost
+  })(Posts)
 );
