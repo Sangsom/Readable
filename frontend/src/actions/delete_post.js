@@ -10,14 +10,15 @@ export default function deletePost(id, callback) {
       .delete(`${BASE_URL}/posts/${id}`)
       .then(response => {
         callback();
-        dispatch(deletePostAsync());
+        dispatch(deletePostAsync(response.data));
       })
       .catch(err => console.log(err));
   };
 }
 
-function deletePostAsync() {
+function deletePostAsync(post) {
   return {
-    type: DELETE_POST
+    type: DELETE_POST,
+    payload: post
   };
 }

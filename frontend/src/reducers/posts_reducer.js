@@ -30,7 +30,7 @@ export default function(state = [], action) {
       });
     case DELETE_POST:
       return state.filter(post => {
-        return post.id !== action.payload;
+        return post.id !== action.payload.id;
       });
     case UPVOTE_POST:
       return state.map(post => {
