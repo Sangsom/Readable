@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 import fetchPostDetails from "../actions/fetch_post_details";
 import deletePost from "../actions/delete_post";
@@ -10,7 +9,7 @@ import AddComment from "./AddComment";
 import { Button, Item, Header, Confirm, Message } from "semantic-ui-react";
 
 class PostDetails extends Component {
-  state = { id: "", open: false, redirect: false };
+  state = { id: "", open: false };
 
   componentDidMount() {
     const id = this.props.match.params.id;
@@ -19,6 +18,7 @@ class PostDetails extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { id } = nextProps.postDetails;
+
     this.setState({ id });
   }
 
@@ -35,7 +35,8 @@ class PostDetails extends Component {
   handleConfirm = () => {
     const { id } = this.state;
     this.props.deletePost(id, () => {
-      this.setState({ open: false, redirect: true });
+      this.setState({ open: false });
+      this.props.history.push("/");
     });
   };
 
@@ -50,14 +51,14 @@ class PostDetails extends Component {
       commentCount
     } = this.props.postDetails;
     const id = this.props.match.params.id;
+    const { deleted } = this.props.postDetails;
 
     return (
       <div>
-        {this.state.redirect ? (
-          <Redirect to="/" />
-        ) : (
+        {!deleted ? (
           <Item.Group divided>
             <Header size="large">Post Details</Header>
+
             <Item>
               <Item.Image src="../assets/images/image.png" />
               <Item.Content>
@@ -115,6 +116,10 @@ class PostDetails extends Component {
               )}
             </Item>
           </Item.Group>
+        ) : (
+          <Item>
+            <Item.Header as="h4">This post doesn't exist!</Item.Header>
+          </Item>
         )}
       </div>
     );

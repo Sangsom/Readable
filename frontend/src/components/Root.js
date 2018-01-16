@@ -16,15 +16,20 @@ class Root extends Component {
         <div className="content">
           <Switch>
             <Route path="/" exact component={Posts} />
-            <Route path="/posts/:id" component={PostDetails} />
-            <Route path="/add-post" component={AddPost} />
-            <Route path="/edit-post/:id" component={EditPost} />
-            <Route path="/:category" component={Posts} />
+            <Route path="/posts/:id" exact component={PostDetails} />
+            <Route path="/add-post" exact component={AddPost} />
+            <Route path="/edit-post/:id" exact component={EditPost} />
+            <Route path="/:category" exact component={Posts} />
+            <Route path="*" component={NotFound} />
           </Switch>
         </div>
       </div>
     );
   }
 }
+
+const NotFound = () => {
+  return <div>Not found</div>;
+};
 
 export default withRouter(connect(null)(Root));
